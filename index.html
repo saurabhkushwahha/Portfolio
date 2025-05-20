@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Saurabh Kushwaha</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            color: #37352f;
+            background-color: #ffffff;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Portfolio Styles */
+        .portfolio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 24px 0;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 24px;
+            color: #37352f;
+            font-weight: 700;
+        }
+
+        .section {
+            margin-bottom: 48px;
+        }
+
+        /* Introduction Styles */
+        .intro-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .intro-text {
+            flex: 2;
+        }
+
+        .intro-text h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .intro-text p {
+            margin-bottom: 12px;
+            color: #5e5c5c;
+        }
+
+        .intro-text p strong {
+            color: #37352f;
+        }
+
+        .book-call-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 1px solid #adadad;
+            border-radius: 4px;
+            background-color: #fff;
+            margin-top: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #37352f;
+        }
+
+        .intro-image {
+            flex: 1;
+            text-align: right;
+        }
+
+        .intro-image img {
+            max-width: 200px;
+            border-radius: 20px;
+        }
+
+        /* Skills Section */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #e9e9e9;
+            margin-bottom: 16px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid #2382fe;
+            color: #2382fe;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .skill-item {
+            padding: 8px;
+            border-radius: 4px;
+            background-color: #f7f7f7;
+            border: 1px solid #adadad;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skills-content {
+            display: none;
+        }
+
+        .skills-content.active {
+            display: block;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .projects-content {
+            display: none;
+        }
+
+        .projects-content.active {
+            display: block;
+        }
+
+        .project-card {
+            background-color: #f7f7f7;
+            border: 1px solid #adadad;
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 16px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .project-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .project-description {
+            font-size: 14px;
+            color: #5e5c5c;
+            margin-bottom: 8px;
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #e9e9e9;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .star-icon {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            cursor: pointer;
+        }
+
+        /* Project Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 24px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-body {
+            margin-bottom: 24px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* Services/Table Section */
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .services-table th {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #e9e9e9;
+            font-weight: 500;
+            color: #5e5c5c;
+        }
+
+        .services-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9e9e9;
+            vertical-align: top;
+        }
+
+        .services-table ul {
+            list-style-type: none;
+            padding-left: 16px;
+        }
+
+        .services-table li {
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+        .services-table li::before {
+            content: "•";
+            position: absolute;
+            left: -16px;
+            color: #5e5c5c;
+        }
+
+        /* Education Section Styles */
+        .education-card {
+            background-color: #f7f7f7;
+            border: 1px solid #adadad;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .education-degree {
+            font-weight: 600;
+        }
+
+        .education-period {
+            color: #5e5c5c;
+            font-size: 14px;
+        }
+
+        .education-institution {
+            margin-bottom: 8px;
+        }
+
+        .education-details {
+            color: #5e5c5c;
+            font-size: 14px;
+        }
+
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .intro-section {
+                flex-direction: column;
+            }
+
+            .intro-image {
+                text-align: center;
+            }
+
+            .intro-image img {
+                max-width: 150px;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-table {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="portfolio-header">
+            <h1></h1>
+        </div>
+
+            <div class="intro-section">
+                <div class="intro-text">
+                    <h1>Hello, I'm Saurabh Kushwaha.</h1>
+                    <p>Always Learning & Upskilling ...🚀</p>
+                    <!-- <p>I design and optimize Notion templates to be clutter-free, so you can focus on what's important and get things done.</p> -->
+                    <a href="#" class="book-call-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        +91-7652034084
+                    </a>
+
+                    <a href="mailto:isukhpreetsingh41@gmail.com" class="book-call-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <span>saurabhkushwahhaa@gmail.com</span>
+                    </a>
+                    <!-- put the google drive link of your resume -->
+                    <a href=" " target="_blank" class="book-call-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download Resume
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/sukhpreet41/" target="_blank" class="book-call-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                        LinkedIn
+                    </a>
+
+                    <a href="https://github.com/saurabhkushwahhaa" target="_blank" class="book-call-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                        </svg>
+                        Github
+                    </a>
+                </div>
+
+
+
+            <div class="intro-image">
+                <img src="./assets/images/myphoto.jpg" alt="Sukhpreet Singh Photo">
+            </div>
+        </div>
+
+
+
+        <div class="section">
+            <h2>Work Experience</h2>
+            <table class="services-table">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Designation</th>
+                        <th>Roles & Responsibilities</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SparkBrains</td>
+
+                        <td>Data Engineer Intern</td>
+                        <td>
+
+                            <ul>
+                                <li>SQL</li>
+                                <li>Python</li>
+                                <li>ETL</li>
+                            </ul>
+
+
+                        </td>
+
+                        <td>May 2025 - Present</td>
+
+
+                    </tr>
+
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>Kontinuum Kode</td>
+
+                        <td>Business Developemt Executive</td>
+                        <td>
+
+                            <ul>
+                                <li>Proposal Writing</li>
+                                <li>Lead Generation</li>
+                                <li>Crafting BRD & SRS Document</li>
+                            </ul>
+
+
+                        </td>
+
+                        <td>June 2024 - April 2025</td>
+
+
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+
+        <div class="section">
+            <h2>Skills</h2>
+            <div class="tabs skills-tabs">
+                <div class="tab skills-tab active" data-tab="software">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    Technologies
+                </div>
+                <div class="tab skills-tab" data-tab="language">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    </svg>
+                    Language
+                </div>
+            </div>
+            <div class="skills-content active" id="software">
+                <div class="skills-grid">
+                    <div class="skill-item">SQL</div>
+                    <div class="skill-item">Python</div>
+                    <div class="skill-item">DataBricks</div>
+                    <div class="skill-item">Data Warehouse</div>
+                    <div class="skill-item">AWS/Azure Basics</div>
+                    <div class="skill-item">Git</div>
+                </div>
+            </div>
+            <div class="skills-content" id="expertise">
+            </div>
+            <div class="skills-content" id="language">
+                <div class="skills-grid">
+                    <div class="skill-item">English</div>
+                    <div class="skill-item">Punjabi</div>
+                    <div class="skill-item">Hindi</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Personal Projects</h2>
+            <div class="tabs projects-tabs">
+                <div class="tab projects-tab active" data-tab="featured">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    Featured
+                </div>
+                <div class="tab projects-tab" data-tab="past">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Past Projects
+                </div>
+            </div>
+            <div class="projects-content active" id="featured">
+                <div class="projects-grid" id="featured-projects">
+                    <!-- Featured projects will be populated here -->
+                </div>
+            </div>
+            <div class="projects-content" id="past">
+                <div class="projects-grid" id="past-projects">
+                    <!-- Past projects will be populated here -->
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Education Section -->
+        <div class="section">
+            <h2 style="margin-bottom: 10px;">Education</h2>
+
+            <div class="education-card">
+                <div class="education-header">
+                    <div class="education-degree">Bachelor of Technology in Computer Science Engineering</div>
+                    <div class="education-period">2020 - 2024</div>
+                </div>
+                <div class="education-institution">Chandigarh University, Mohali</div>
+                <div class="education-details">
+                    <p>CGPA: 7.6/10</p>
+                    <!-- <p>Relevant Coursework: Data Structures, Database Management Systems, Cloud Computing, Data Analysis</p> -->
+                </div>
+            </div>
+            <div class="education-card">
+                <div class="education-header">
+                    <div class="education-degree">Higher Secondary Education (12th)</div>
+                    <div class="education-period">2018 - 2020</div>
+                </div>
+                <div class="education-institution">Gem Public School, Mohali, Punjab</div>
+                <div class="education-details">
+                    <!-- <p>Percentage: 86%</p> -->
+                    <p>Stream: Non-Medical (PCM)</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="section" style="text-align: center;">
+            <p>Copyright - Sukpreet Singh</p>
+        </div>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Project Title</h2>
+                <span class="close-button">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="modal-description">Project description will go here.</p>
+                <h3 style="margin-top: 16px;">Key Features</h3>
+                <ul id="modal-features" style="margin-left: 20px; margin-top: 8px;">
+                </ul>
+                <h3 style="margin-top: 16px;">Technologies Used</h3>
+                <div id="modal-tech" style="margin-top: 8px;"></div>
+                <h3 style="margin-top: 16px;">Timeline</h3>
+                <p id="modal-timeline" style="margin-top: 8px;"></p>
+            </div>
+            <div class="modal-footer">
+                <a id="project-link" href="#" target="_blank" class="book-call-btn">View Project</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Project data
+        const projectsData = [
+            {
+                id: 1,
+                title: "Cross-Cloud Data Lakehouse with Governance using Databricks Unity Catalog.",
+                description: "Built a unified datalakehouse combining data from different sources such as AWS S3 and Azure ADLS.",
+                tag: ["Databricks"],
+                icon: "box",
+                featured: true,
+                link: "#",
+                features: [
+                    "Designed a cross-cloud data lakehouse using Databricks Unity Catalog, integrating AWS S3 and Azure Data Lake Storage for a global retail company",
+                    "Implemented row-level security and column masking to enforce compliance, reducing unauthorized data access.",
+                    "Enabled secure data sharing external partners via Delta Sharing , eliminating manual CSV exports"
+                ],
+                technologies: ["Databricks", "SQL", "Azure"],
+                timeline: "Completed in 3 Days (March 2025)"
+            },
+            {
+                id: 2,
+                title: "Sales Data Cleaning & Analysis using PySpark.",
+                description: "Cleaned and Transformed Raw data from CSV files using PySpark and DataBrick Community.",
+                tag: "Pyspark",
+                icon: "layout",
+                featured: true,
+                link: "https://colab.research.google.com/drive/1ReIG-Iv4cyELxiQ80Z1iYZWQWQkNgOSR",
+                fullDescription: "",
+                features: [
+                    "Used PySpark (DataBricks) to transform, and analyze sales and menu data for actionable insights.",
+                    "Calculated total spending by customers, monthly sales, and product purchase trends.",
+                    "Identified customer visit frequency, top spenders, and other KPIs.",
+                    "Handled data schema definition, and type conversion for accurate results and aggregations."
+                ],
+                technologies: ["Python", "SQL", "Databricks"],
+                timeline: "Completed in 2 days (February 2025)"
+            },
+            {
+                id: 3,
+                title: "Vehicles MPG dataset analysis using Numpy and Pandas.",
+                description: "Built a centralized knowledge management system for a remote marketing team.",
+                tag: "Data Analysis",
+                icon: "book",
+                featured: true,
+                link: "https://colab.research.google.com/drive/1msmaqPy2mQcZ_gFYUdhCRdg1sCKeIIZ3?usp=sharing",
+                fullDescription: "",
+                features: [
+                    "Conducted Data Cleaning - removing unwanted/duplicated data for accurate analysis.",
+                    "Conducted analysis (EDA) of data to find trends and uncovered the fuel efficiency of a vehicle.",
+                    "Identified key factors influencing miles per gallon (MPG) such as engine size, horsepower, and vehicle weight.",
+                ],
+                technologies: ["Data Analysis", "Numpy", "Python"],
+                timeline: "Completed in 6 weeks (September 2024)"
+            },
+            {
+                id: 4,
+                title: "Product Launch Tracker",
+                description: "Designed a Notion system to track and manage product launches for a tech startup.",
+                tag: "Project Management",
+                icon: "rocket",
+                featured: false,
+                fullDescription: "Created a comprehensive product launch tracking system in Notion for a tech startup to manage multiple product releases simultaneously.",
+                features: [
+                    "Task dependencies and critical path visualization",
+                    "Milestone tracking with automated notifications",
+                    "Resource allocation and budget tracking",
+                    "Post-launch analytics integration"
+                ],
+                technologies: ["Notion", "GitHub", "Google Analytics"],
+                timeline: "Completed in 2 months (August 2024)"
+            }
+        ];
+
+
+
+        // DOM Elements
+        const modal = document.getElementById("projectModal");
+        const modalTitle = document.querySelector(".modal-title");
+        const modalDescription = document.getElementById("modal-description");
+        const modalFeatures = document.getElementById("modal-features");
+        const modalTech = document.getElementById("modal-tech");
+        const modalTimeline = document.getElementById("modal-timeline");
+        const closeButton = document.querySelector(".close-button");
+        const featuredProjectsGrid = document.getElementById("featured-projects");
+        const pastProjectsGrid = document.getElementById("past-projects");
+        const projectLink = document.getElementById("project-link");
+
+        // Functions
+        function renderProjects() {
+            // Clear current projects
+            featuredProjectsGrid.innerHTML = "";
+            pastProjectsGrid.innerHTML = "";
+
+            // Render projects
+            projectsData.forEach(project => {
+                const projectCard = createProjectCard(project);
+
+                if (project.featured) {
+                    featuredProjectsGrid.appendChild(projectCard);
+                } else {
+                    pastProjectsGrid.appendChild(projectCard);
+                }
+            });
+        }
+
+        function createProjectCard(project) {
+            const card = document.createElement("div");
+            card.className = "project-card";
+            card.dataset.id = project.id;
+
+            const iconSvg = getIconSvg(project.icon);
+
+            card.innerHTML = `
+                <div class="project-title">
+                    ${iconSvg}
+                    ${project.title}
+                </div>
+                <div class="project-description">${project.description}</div>
+                <div class="project-tag">${project.tag}</div>
+                <div class="star-icon" data-id="${project.id}">
+                    ${project.featured ? getStarIconSvg(true) : getStarIconSvg(false)}
+                </div>
+            `;
+
+            // Add click event to open modal
+            card.addEventListener("click", (e) => {
+                if (!e.target.closest('.star-icon')) {
+                    openProjectModal(project);
+                }
+            });
+
+            // Add click event to star icon
+           // const starIcon = card.querySelector('.star-icon');
+           // starIcon.addEventListener("click", (e) => {
+           //     e.stopPropagation();
+           //     toggleFeatured(project.id);
+           // });
+
+            return card;
+        }
+
+        function getIconSvg(icon) {
+            const icons = {
+                box: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>',
+                layout: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>',
+                book: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
+                rocket: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>'
+            };
+
+            return icons[icon] || icons.box;
+        }
+
+        function getStarIconSvg(filled) {
+            if (filled) {
+                return '<svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+            } else {
+                return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+            }
+        }
+
+        function toggleFeatured(projectId) {
+            const project = projectsData.find(p => p.id === parseInt(projectId));
+            if (project) {
+                project.featured = !project.featured;
+                renderProjects();
+            }
+        }
+
+        // Function to open the project modal
+        function openProjectModal(project) {
+            modalTitle.textContent = project.title;
+            modalDescription.textContent = project.fullDescription;
+
+            // Clear features list
+            modalFeatures.innerHTML = "";
+
+            // Add features
+            project.features.forEach(feature => {
+                const li = document.createElement("li");
+                li.textContent = feature;
+                modalFeatures.appendChild(li);
+            });
+
+            // Set technologies
+            modalTech.textContent = project.technologies.join(", ");
+            // Set project link
+            projectLink.href = project.link;
+            // Set timeline
+            modalTimeline.textContent = project.timeline;
+
+            // Show modal
+            modal.style.display = "block";
+        }
+
+        function closeProjectModal() {
+            modal.style.display = "none";
+        }
+
+        // Event Listeners
+        closeButton.addEventListener("click", closeProjectModal);
+
+        window.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                closeProjectModal();
+            }
+        });
+
+        // Skills Tabs
+        document.querySelectorAll('.skills-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.skills-tab').forEach(t => t.classList.remove('active'));
+
+                // Add active class to clicked tab
+                this.classList.add('active');
+
+                // Hide all content sections
+                document.querySelectorAll('.skills-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                // Show selected content section
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Projects Tabs
+        document.querySelectorAll('.projects-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.projects-tab').forEach(t => t.classList.remove('active'));
+
+                // Add active class to clicked tab
+                this.classList.add('active');
+
+                // Hide all content sections
+                document.querySelectorAll('.projects-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                // Show selected content section
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Initialize
+        renderProjects();
+    </script>
+</body>
+</html>
+
+
